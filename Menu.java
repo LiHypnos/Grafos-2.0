@@ -30,7 +30,7 @@ public class Menu {
             switch (escolha) {
                 case "1":
                     System.out.println("Conexo");
-                    //System.out.println(ferramentas.isConexo());
+                    System.out.println(ferramentas.isConexo());
                     break;
                 case "2":
                     System.out.println("Bipartido");
