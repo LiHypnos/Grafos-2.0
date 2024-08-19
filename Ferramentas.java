@@ -12,8 +12,29 @@ public class Ferramentas {
     
     public boolean isConexo(){
         String initial = grafo.Vertices().charAt(0) + "";
-        
-        return grafo.DFS(initial).size() == grafo.Vertices().split(" ").length;
+        Map<String, Boolean> visited = new HashMap<>();
+        for (String vertice : grafo.Vertices().split(" ")) {
+            visited.put(vertice, false);
+        }
+        Queue<String> queue = new LinkedList<>();
+        queue.add(initial);
+        visited.put(grafo.getGrafo().get(initial).get(0).getOrigin(), true);
+        visited.put(grafo.getGrafo().get(initial).get(0).getDestiny(), true);
+        while (!queue.isEmpty()) {
+            String aresta = queue.poll();
+            for (String adjacente : grafo.getGrafo().get(aresta).get(0).getDestiny().split(" ")) {
+                if (!visited.get(adjacente)) {
+                    visited.put(adjacente, true);
+                    queue.add(adjacente);
+                }
+            }
+        }
+        for (String vertice : grafo.Vertices().split(" ")) {
+            if (!visited.get(vertice)) {
+                return false;
+            }
+        }
+        return true;
     }
     public boolean isBipartido(){
         Map<String, Integer> cores = new HashMap<>();

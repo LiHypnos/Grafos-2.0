@@ -48,7 +48,17 @@ public class Grafo {
         return id;
     }
     public int getGrau(String vertice){
-        return grafo.get(vertice).size();
+        int cont = 0;
+        for(Map.Entry<String, ArrayList<Pair<String, Integer, String>>> entry : grafo.entrySet()){
+            if(entry.getValue() != null){
+                for (Pair<String, Integer, String> par : entry.getValue()) {
+                    if(par.getDestiny().equals(vertice)){
+                        cont++;
+                    }
+                }
+            }
+        }
+        return cont;
     }
     public List<String> BFS(String initial){
         List<String> visitados = new ArrayList<>();

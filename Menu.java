@@ -20,6 +20,9 @@ public class Menu {
             }
         }
         System.out.println("Vertices: " + grafo.Vertices());
+        for(int i=0;i<grafo.Vertices().split(" ").length;i++){
+            System.out.println("Grau do vertice " + grafo.Vertices().split(" ")[i] + ": " + grafo.getGrau(grafo.Vertices().split(" ")[i]));
+        }
         Ferramentas ferramentas = new Ferramentas(grafo);
         System.out.println("Menu\n1. Conexo\n2. Bipartido\n3. Euleriano\n4. Possui ciclo\n5. Componentes Conexoas\n6. Componentes Fortemente Conexas\n7. Trilha Euleriana\n8. Vertices de Articulacao\n9. Arestas de Ponte\n10. DFS\n11. BFS\n12. Arvore Geradora Minima\n13. Ordem Topologica\n14. Valor Caminho Minimo Entre Dois Vertices\n15. Valor Fluxo Maximo\n16. Fecho Transitivo\n0. Sair");
         while(!escolha.equals("0")) {
@@ -27,7 +30,7 @@ public class Menu {
             switch (escolha) {
                 case "1":
                     System.out.println("Conexo");
-                    //System.out.println(ferramentas.isConexo());
+                    System.out.println(ferramentas.isConexo());
                     break;
                 case "2":
                     System.out.println("Bipartido");
