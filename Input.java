@@ -9,11 +9,11 @@ import java.util.Scanner;
 
 public class Input {
     @SuppressWarnings("resource")
-    Map<String, ArrayList<Pair<String,Integer>>> input(){
+    Map<String, ArrayList<Pair<String,Integer,String>>> input(){
         Scanner scanner = new Scanner(System.in);
         System.out.println("INPUT POR:\n1. Arquivo | 2. Terminal");
         String escolha = scanner.nextLine();
-        Map<String, ArrayList<Pair<String,Integer>>> grafo = new HashMap<>();
+        Map<String, ArrayList<Pair<String,Integer,String>>> grafo = new HashMap<>();
         switch (escolha) {
             case "1":
                 System.out.println("Arquivo");     
@@ -30,28 +30,28 @@ public class Input {
                             // Remove os parênteses restantes e divide os vértices e o peso
                             aresta = aresta.replaceAll("[()]", "");
                             String[] dados = aresta.split(",");
-
-                            String v1 = dados[0].trim();
-                            String v2 = dados[1].trim();
-                            int valor = Integer.parseInt(dados[2].trim()); // Lê o peso da aresta
+                            String a = dados[0];
+                            String v1 = dados[1].trim();
+                            String v2 = dados[2].trim();
+                            int valor = Integer.parseInt(dados[3].trim()); // Lê o peso da aresta
 
                             // Adiciona a aresta no grafo
-                            if (grafo.containsKey(v1)) {
-                                grafo.get(v1).add(new Pair<>(v2, valor));
+                            if (grafo.containsKey(a)) {
+                                grafo.get(a).add(new Pair<>(v1, valor,v2));
                             } else {
-                                ArrayList<Pair<String, Integer>> lista = new ArrayList<>();
-                                lista.add(new Pair<>(v2, valor));
-                                grafo.put(v1, lista);
+                                ArrayList<Pair<String, Integer, String>> lista = new ArrayList<>();
+                                lista.add(new Pair<>(v1, valor, v2));
+                                grafo.put(a, lista);
                             }
 
                             // Se o grafo não for direcionado, adiciona a aresta na direção oposta
                             if (tipoGrafo.equals("nao_direcionado")) {
-                                if (grafo.containsKey(v2)) {
-                                    grafo.get(v2).add(new Pair<>(v1, valor));
+                                if (grafo.containsKey(a)) {
+                                    grafo.get(a).add(new Pair<>(v2, valor, v1));
                                 } else {
-                                    ArrayList<Pair<String, Integer>> lista = new ArrayList<>();
-                                    lista.add(new Pair<>(v1, valor));
-                                    grafo.put(v2, lista);
+                                    ArrayList<Pair<String, Integer, String>> lista = new ArrayList<>();
+                                    lista.add(new Pair<>(v2, valor, v1));
+                                    grafo.put(a, lista);
                                 }
                             }
                         }
@@ -81,29 +81,25 @@ public class Input {
                         if (contadorV == Integer.parseInt(v)) {
                             break;
                         } else {
+                            System.out.println("ID aresta:");
+                            String id = scanner.nextLine();
                             System.out.println("V1:");
                             String v1 = scanner.nextLine();
                             System.out.println("V2:");
                             String v2 = scanner.nextLine();
                             System.out.println("Valor:");
                             valor = scanner.nextLine();
-        
-                            // Adiciona a aresta v1 -> v2
-                            if (grafo.containsKey(v1)) {
-                                grafo.get(v1).add(new Pair<>(v2, Integer.parseInt(valor)));
-                            } else {
-                                ArrayList<Pair<String, Integer>> lista = new ArrayList<>();
-                                lista.add(new Pair<>(v2, Integer.parseInt(valor)));
-                                grafo.put(v1, lista);
-                            }
+                            ArrayList<Pair<String, Integer, String>> lista = new ArrayList<>();
+                            lista.add(new Pair<>(v1, Integer.parseInt(valor), v2));
+                            grafo.put(id, lista);
         
                             // Adiciona a aresta v2 -> v1 para garantir a bidirecionalidade
-                            if (grafo.containsKey(v2)) {
-                                grafo.get(v2).add(new Pair<>(v1, Integer.parseInt(valor)));
+                            if (grafo.containsKey(id)) {
+                                grafo.get(id).add(new Pair<>(v2, Integer.parseInt(valor), v1));
                             } else {
-                                ArrayList<Pair<String, Integer>> lista = new ArrayList<>();
-                                lista.add(new Pair<>(v1, Integer.parseInt(valor)));
-                                grafo.put(v2, lista);
+                                ArrayList<Pair<String, Integer, String>> listax = new ArrayList<>();
+                                listax.add(new Pair<>(v2, Integer.parseInt(valor), v1));
+                                grafo.put(id, listax);
                             }
         
                             contadorV++;
@@ -116,20 +112,18 @@ public class Input {
                         if(contadorV == Integer.parseInt(v)){
                             i=aInt;
                         } else {
+                            System.out.println("ID aresta:");
+                            String id = scanner.nextLine();
                             System.out.println("V1:");
                             String v1 = scanner.nextLine();
                             System.out.println("V2:");
                             String v2 = scanner.nextLine();
                             System.out.println("Valor:");
                             valor = scanner.nextLine();
-                            if(grafo.containsKey(v1)){
-                                grafo.get(v1).add(new Pair<>(v2,Integer.parseInt(valor)));
-                            } else {
-                                contadorV++;
-                                ArrayList<Pair<String,Integer>> lista = new ArrayList<>();
-                                lista.add(new Pair<>(v2,Integer.parseInt(valor)));
-                                grafo.put(v1, lista);
-                            }
+                            contadorV++;
+                            ArrayList<Pair<String,Integer,String>> lista = new ArrayList<>();
+                            lista.add(new Pair<>(v1,Integer.parseInt(valor),v2));
+                            grafo.put(id, lista);
                         }
                         
                     }
