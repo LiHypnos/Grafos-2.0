@@ -83,6 +83,7 @@ public class Grafo {
 
         pilha.add(initial);
         verticesVisitados.add(grafo.get(initial).get(0).getDestiny());
+        verticesVisitados.add(grafo.get(initial).get(0).getOrigin());
         arestasVisitadas.add(initial);
         while(!pilha.isEmpty()){
             String aresta = pilha.pop();
@@ -91,11 +92,12 @@ public class Grafo {
                 for (Map.Entry<String, ArrayList<Pair<String, Integer, String>>> entry : grafo.entrySet()){
                     if(entry.getValue() != null){
                         for (Pair<String, Integer, String> par : entry.getValue()) {
-                            if(par.getDestiny().equals(grafo.get(getIdValue(par)).get(0).getDestiny()) && !verticesVisitados.contains(par.getOrigin())){
+                            if(par.getOrigin().equals(grafo.get(aresta).get(0).getDestiny()) && !verticesVisitados.contains(par.getDestiny())){
                                 pilha.add(entry.getKey());
                                 arestasVisitadas.add(entry.getKey());
                                 verticesVisitados.add(par.getOrigin());
                                 verticesVisitados.add(par.getDestiny());
+                                aresta = pilha.pop();
                             }
                         }
                     }
