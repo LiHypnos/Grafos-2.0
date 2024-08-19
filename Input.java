@@ -11,7 +11,7 @@ public class Input {
     @SuppressWarnings("resource")
     Map<String, ArrayList<Pair<String,Integer,String>>> input(){
         Scanner scanner = new Scanner(System.in);
-        System.out.println("INPUT POR:\n1. Arquivo | 2. Terminal");
+        System.out.println("INPUT POR:\n1. Arquivo | 2. Terminal | 3. Arquivo <Padrao>");
         String escolha = scanner.nextLine();
         Map<String, ArrayList<Pair<String,Integer,String>>> grafo = new HashMap<>();
         switch (escolha) {
@@ -58,6 +58,7 @@ public class Input {
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
+
                 }
                 return grafo;
             case "2":
@@ -131,10 +132,49 @@ public class Input {
                     System.out.println("Caracteristica invalida");
                 }
                 return grafo;
+            case "3":
+                try (BufferedReader br = new BufferedReader(new FileReader("grafo_0.txt"))) {
+                    String comandos = br.readLine().trim(); // Lê a primeira linha contendo os comandos
+                    String primeiraLinha = br.readLine().trim(); // Lê a primeira linha contendo número de vértices e arestas
+                    String tipoGrafo = br.readLine().trim(); // Lê o tipo de grafo (direcionado ou não)
+                    String line;
+        
+                    while ((line = br.readLine()) != null) {
+                        // Divide os dados da linha
+                        String[] dados = line.split(" ");
+                        String idAresta = dados[0].trim();
+                        String v1 = dados[1].trim();
+                        String v2 = dados[2].trim();
+                        int peso = Integer.parseInt(dados[3].trim()); // Lê o peso da aresta
+        
+                        // Adiciona a aresta no grafo
+                        if (grafo.containsKey(idAresta)) {
+                            grafo.get(idAresta).add(new Pair<>(v1, peso, v2));
+                        } else {
+                            ArrayList<Pair<String, Integer, String>> lista = new ArrayList<>();
+                            lista.add(new Pair<>(v1, peso, v2));
+                            grafo.put(idAresta, lista);
+                        }
+        
+                        // Se o grafo não for direcionado, adiciona a aresta na direção oposta
+                        if (tipoGrafo.equals("nao_direcionado")) {
+                            if (grafo.containsKey(idAresta)) {
+                                grafo.get(idAresta).add(new Pair<>(v2, peso, v1));
+                            } else {
+                                ArrayList<Pair<String, Integer, String>> lista = new ArrayList<>();
+                                lista.add(new Pair<>(v2, peso, v1));
+                                grafo.put(idAresta, lista);
+                            }
+                        }
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            return grafo;
             default:
                 System.out.println("Opcao invalida");
                 return null;
             }
         }
+}
         
-    }
