@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -11,10 +12,19 @@ import java.util.Stack;
 //import java.util.TreeSet;
 
 public class Grafo {
+    Boolean direcionado;
     Map<String, ArrayList<Pair<String,Integer,String>>> grafo;
     Grafo(Map<String, ArrayList<Pair<String,Integer,String>>> input){
         grafo = new HashMap<>();
         grafo = input;
+        if(grafo.get("0").get(1).getOrigin() == grafo.get("0").get(0).getDestiny()){
+            direcionado = false;
+        } else {
+            direcionado = true;
+        }
+    }
+    public boolean isDirecionado(){
+        return direcionado;
     }
     public Map<String, ArrayList<Pair<String,Integer,String>>> getGrafo(){
         return grafo;
@@ -84,6 +94,7 @@ public class Grafo {
                 }
             }
         }
+        arestas.sort(Comparator.naturalOrder());
         return arestas;
     }
     public Set<String> DFS(String initial){
@@ -114,6 +125,8 @@ public class Grafo {
                 }
             }
         }
-        return arestasVisitadas;
+        List<String> sortedList = new ArrayList<>(arestasVisitadas);
+        Collections.sort(sortedList);
+        return new HashSet<>(sortedList);
     }
 }

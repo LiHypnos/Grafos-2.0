@@ -34,7 +34,7 @@ public class Menu {
                     break;
                 case "2":
                     System.out.println("Bipartido");
-                    //System.out.println(ferramentas.isBipartido());
+                    System.out.println(ferramentas.isBipartido());
                     break;
                 case "3":
                     System.out.println("Euleriano");
@@ -42,12 +42,15 @@ public class Menu {
                     break;
                 case "4":
                     System.out.println("Possui ciclo");
+                    System.out.println(ferramentas.possuiCiclo());
                     break;
                 case "5":
-                    System.out.println("Componentes Conexoas");
+                    System.out.println("Componentes Conexas");
+                    ferramentas.componentesConexas();
                     break;
                 case "6":
                     System.out.println("Componentes Fortemente Conexas");
+                    ferramentas.componentesFortementeConexas();
                     break;
                 case "7":
                     System.out.println("Trilha Euleriana");
