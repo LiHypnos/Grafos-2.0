@@ -1,4 +1,7 @@
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -24,6 +27,14 @@ public class Menu {
         for(int i=0;i<grafo.Vertices().split(" ").length;i++){
             System.out.println("Grau do vertice " + grafo.Vertices().split(" ")[i] + ": " + grafo.getGrau(grafo.Vertices().split(" ")[i]));
         }
+        String[] verticesxString = grafo.Vertices().split(" ");
+        Integer[] verticesx = new Integer[verticesxString.length];
+        for (int i = 0; i < verticesxString.length; i++) {
+            verticesx[i] = Integer.parseInt(verticesxString[i]);
+        }
+        List<Integer> verticesList = Arrays.asList(verticesx);
+        Collections.sort(verticesList);
+        System.out.println("Vertices ordenados: " + verticesList);
         Ferramentas ferramentas = new Ferramentas(grafo);
         System.out.println("Menu\n1. Conexo\n2. Bipartido\n3. Euleriano\n4. Possui ciclo\n5. Componentes Conexoas\n6. Componentes Fortemente Conexas\n7. Trilha Euleriana\n8. Vertices de Articulacao\n9. Arestas de Ponte\n10. DFS\n11. BFS\n12. Arvore Geradora Minima\n13. Ordem Topologica\n14. Valor Caminho Minimo Entre Dois Vertices\n15. Valor Fluxo Maximo\n16. Fecho Transitivo\n0. Sair");
         while(!escolha.equals("0")) {
@@ -80,9 +91,19 @@ public class Menu {
                     break;
                 case "14":
                     System.out.println("Valor Caminho Minimo Entre Dois Vertices");
+                    System.out.println("Vertice 1:");
+                    String v1 = scanner.nextLine();
+                    System.out.println("Vertice 2:");
+                    String v2 = scanner.nextLine();
+                    //System.out.println(grafo.dijkstra(v1, v2));
                     break;
                 case "15":
                     System.out.println("Valor Fluxo Maximo");
+                    System.out.println("Vertice 1:");
+                    v1 = scanner.nextLine();
+                    System.out.println("Vertice 2:");
+                    v2 = scanner.nextLine();
+                    //System.out.println(grafo.fluxoMaximo(v1, v2));
                     break;
                 case "16":
                     System.out.println("Fecho Transitivo");
