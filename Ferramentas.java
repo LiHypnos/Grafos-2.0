@@ -148,4 +148,47 @@ public class Ferramentas {
         }
         
     }
+    public void trilhaEuleriana(){
+        Stack<String> pilha = new Stack<>();
+        Set<String> verticesVisitados = new HashSet<>();
+        Set<String> arestasVisitadas = new HashSet<>();
+        List<String> visitados = new ArrayList<>();
+
+
+        pilha.add("0");
+        verticesVisitados.add(grafo.getGrafo().get("0").get(0).getDestiny());
+        verticesVisitados.add(grafo.getGrafo().get("0").get(0).getOrigin());
+        arestasVisitadas.add("0");
+        while(!pilha.isEmpty()){
+            String aresta = pilha.pop();
+
+            if (grafo.getGrafo().get(aresta) != null) {
+                for (Map.Entry<String, ArrayList<Pair<String, Integer, String>>> entry : grafo.getGrafo().entrySet()){
+                    if(entry.getValue() != null){
+                        for (Pair<String, Integer, String> par : entry.getValue()) {
+                            if(par.getOrigin().equals(grafo.getGrafo().get(aresta).get(0).getDestiny())){
+                                pilha.add(entry.getKey());
+                                arestasVisitadas.add(entry.getKey());
+                                verticesVisitados.add(par.getOrigin());
+                                verticesVisitados.add(par.getDestiny());
+                                if(!visitados.contains(par.getOrigin())){
+                                    visitados.add(entry.getKey());
+                                }
+                                if(!visitados.contains(par.getDestiny())){
+                                    visitados.add(par.getDestiny());
+                                }
+                                aresta = pilha.pop();
+                            }
+                        }
+                    }
+                }
+                for(Map.Entry<String, ArrayList<Pair<String, Integer, String>>> entry : grafo.getGrafo().entrySet()){
+                    if(visitados.get(visitados.size()-1).equals(entry.getValue().get(0).getDestiny())){
+                        visitados.add(entry.getValue().get(0).getOrigin());
+                    }
+                }
+            }
+        }
+        System.out.println(visitados);
+    }
 }

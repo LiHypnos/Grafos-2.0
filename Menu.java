@@ -54,6 +54,7 @@ public class Menu {
                     break;
                 case "7":
                     System.out.println("Trilha Euleriana");
+                    ferramentas.trilhaEuleriana();
                     break;
                 case "8":
                     System.out.println("Vertices de Articulacao");
