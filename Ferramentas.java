@@ -148,16 +148,16 @@ public class Ferramentas {
         }
         
     }
-    public void trilhaEuleriana(){
+    public List<String> trilhaEuleriana(String initial){
         Stack<String> pilha = new Stack<>();
         Set<String> verticesVisitados = new HashSet<>();
         Set<String> arestasVisitadas = new HashSet<>();
         List<String> visitados = new ArrayList<>();
 
 
-        pilha.add("0");
-        verticesVisitados.add(grafo.getGrafo().get("0").get(0).getDestiny());
-        verticesVisitados.add(grafo.getGrafo().get("0").get(0).getOrigin());
+        pilha.add(initial);
+        verticesVisitados.add(grafo.getGrafo().get(initial).get(0).getDestiny());
+        verticesVisitados.add(grafo.getGrafo().get(initial).get(0).getOrigin());
         arestasVisitadas.add("0");
         while(!pilha.isEmpty()){
             String aresta = pilha.pop();
@@ -189,6 +189,21 @@ public class Ferramentas {
                 }
             }
         }
-        System.out.println(visitados);
+        return visitados;
+    }
+    public void verticesDeArticulacao(){
+        String[] vertices = grafo.Vertices().split(" ");
+        List<String> articulados = new ArrayList<>();
+        String[] consulta = new String[vertices.length*2];
+        for(int i=0;i<vertices.length;i++){ 
+            consulta = trilhaEuleriana(vertices[i]).toArray(new String[0]);
+            if(consulta[0].equals(consulta[consulta.length-1])){
+                articulados.add(vertices[i]);
+            }
+        }
+        System.out.println(articulados);
+    }
+    public void arestasDePonte(){
+        
     }
 }

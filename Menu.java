@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -54,10 +55,12 @@ public class Menu {
                     break;
                 case "7":
                     System.out.println("Trilha Euleriana");
-                    ferramentas.trilhaEuleriana();
+                    List<String> vertices = ferramentas.trilhaEuleriana("0");
+                    System.out.println(vertices);
                     break;
                 case "8":
                     System.out.println("Vertices de Articulacao");
+                    ferramentas.verticesDeArticulacao();
                     break;
                 case "9":
                     System.out.println("Arestas de Ponte");
