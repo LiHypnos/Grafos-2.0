@@ -204,6 +204,13 @@ public class Ferramentas {
         System.out.println(articulados);
     }
     public void arestasDePonte(){
-        
+       String[] vertices = grafo.Vertices().split(" ");
+       Set<String> arestasPonte = new HashSet<>();
+       for(int i=0;i<vertices.length;i++){
+           if(grafo.getGrau(vertices[i])==1){
+                arestasPonte.add(grafo.getIdValue(grafo.getLigacoes(vertices[i])));
+           }
+       }
+        System.out.println(arestasPonte);
     }
 }

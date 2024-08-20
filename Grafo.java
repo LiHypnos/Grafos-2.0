@@ -44,6 +44,15 @@ public class Grafo {
         }
         return vertices;
     }
+    public Set<String> Arestas(){
+        Set<String> arestas = new HashSet<>();
+        for (Map.Entry<String, ArrayList<Pair<String, Integer, String>>> entry : grafo.entrySet()) {
+            if(entry.getValue() != null){
+                arestas.add(entry.getKey());
+            }
+        }
+        return arestas;
+    }
     public String getIdValue(Pair<String,Integer,String> valor){
         String id = "";
         for (Map.Entry<String, ArrayList<Pair<String, Integer, String>>> entry : grafo.entrySet()) {
@@ -56,6 +65,19 @@ public class Grafo {
             }
         }
         return id;
+    }
+    public Pair<String,Integer,String> getLigacoes(String vertice){
+        Pair<String,Integer,String> ligacoes = null;
+        for (Map.Entry<String, ArrayList<Pair<String, Integer, String>>> entry : grafo.entrySet()) {
+            if(entry.getValue() != null){
+                for (Pair<String, Integer, String> par : entry.getValue()) {
+                    if(par.getDestiny().equals(vertice)){
+                        ligacoes = par;
+                    }
+                }
+            }
+        }
+        return ligacoes;
     }
     public int getGrau(String vertice){
         int cont = 0;

@@ -64,6 +64,7 @@ public class Menu {
                     break;
                 case "9":
                     System.out.println("Arestas de Ponte");
+                    ferramentas.arestasDePonte();
                     break;
                 case "10":
                     System.out.println(grafo.DFS("0"));
