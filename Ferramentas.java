@@ -102,6 +102,11 @@ public class Ferramentas {
         return topSort.executar();
     }
 
+    public String fechoTransitivo() {
+        FechoTransitivo fechoTransitivo = new FechoTransitivo(grafo);
+        return fechoTransitivo.executar();
+    }
+
     public void componentesConexas(){
         Set<String> visitados = new HashSet<>();
         Stack<String> pilha = new Stack<>();
