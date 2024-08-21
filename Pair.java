@@ -1,9 +1,9 @@
 import java.util.Objects;
 
 public class Pair<K, V, D> {
-    K key;
-    V value;
-    D destiny;
+    K key; //representa o vertice de origem
+    V value; //o valor da aresta
+    D destiny; //o vertice de destino
 
     Pair(K key, V value, D destiny) {
         this.key = key;
@@ -22,7 +22,7 @@ public class Pair<K, V, D> {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(Object obj) { //metodo que perimite a comparação do tipo pair
         if (this == obj) return true;
         if (!(obj instanceof Pair)) return false;
         Pair<?, ?, ?> pair = (Pair<?, ?, ?>) obj;
