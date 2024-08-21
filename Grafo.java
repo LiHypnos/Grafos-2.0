@@ -19,6 +19,42 @@ public class Grafo {
     public Map<String, ArrayList<Pair<String,Integer,String>>> getGrafo(){
         return grafo;
     }
+    
+    public ArrayList<String> getVertices() {
+        ArrayList<String> vertices = new ArrayList<>();
+        for (Map.Entry<String, ArrayList<Pair<String, Integer, String>>> entry : grafo.entrySet()) {
+            if (entry.getValue() != null) {
+                for (Pair<String, Integer, String> par : entry.getValue()) {
+                    if (!vertices.contains(par.getOrigin())) {
+                        vertices.add(par.getOrigin());
+                    }
+                    if (!vertices.contains(par.getDestiny())) {
+                        vertices.add(par.getDestiny());
+                    }
+                }
+            }
+        }
+        return vertices;
+    }
+
+    public HashMap<String, ArrayList<String>> getListaAdj() {
+        HashMap<String, ArrayList<String>> listaAdj = new HashMap<>();
+        for (Map.Entry<String, ArrayList<Pair<String, Integer, String>>> entry : grafo.entrySet()) {
+            if (entry.getValue() != null) {
+                for (Pair<String, Integer, String> par : entry.getValue()) {
+                    if (listaAdj.containsKey(par.getOrigin())) {
+                        listaAdj.get(par.getOrigin()).add(par.getDestiny());
+                    } else {
+                        ArrayList<String> adj = new ArrayList<>();
+                        adj.add(par.getDestiny());
+                        listaAdj.put(par.getOrigin(), adj);
+                    }
+                }
+            }
+        }
+        return listaAdj;
+    }
+    
     public String Vertices(){
         String vertices = "";
         HashMap<String, Integer> verticesMap = new HashMap<>();
