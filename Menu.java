@@ -126,7 +126,7 @@ public class Menu {
                     break;
                 case "16":
                     System.out.println("Fecho Transitivo");
-                    //grafo.warshall();
+                    System.out.println(ferramentas.fechoTransitivo());
                     break;
                 case "0":
                     break;

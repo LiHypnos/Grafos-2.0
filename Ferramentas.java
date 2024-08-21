@@ -119,6 +119,11 @@ public class Ferramentas {
         return topSort.executar(); // Executa a ordenação topológica
     }
 
+    public String fechoTransitivo() {
+        FechoTransitivo fechoTransitivo = new FechoTransitivo(grafo);
+        return fechoTransitivo.executar();
+    }
+
     // Encontra e exibe as componentes conexas do grafo
     public void componentesConexas(){
         Set<String> visitados = new HashSet<>();
