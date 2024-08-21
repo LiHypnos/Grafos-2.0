@@ -12,7 +12,7 @@ import java.util.Stack;
 
 public class Grafo {
     Boolean direcionado;
-    // Id aresta, array de <origem,aresta,destino>
+    // Id aresta, array de <origem, valor aresta,destino>
     Map<String, ArrayList<Pair<String,Integer,String>>> grafo;
     Grafo(Map<String, ArrayList<Pair<String,Integer,String>>> input){
         grafo = new HashMap<>();

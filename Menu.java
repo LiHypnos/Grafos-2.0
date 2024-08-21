@@ -92,19 +92,31 @@ public class Menu {
                     break;
                 case "14":
                     System.out.println("Valor Caminho Minimo Entre Dois Vertices");
-                    System.out.println("Vertice 1:");
-                    String v1 = scanner.nextLine();
-                    System.out.println("Vertice 2:");
-                    String v2 = scanner.nextLine();
-                    //System.out.println(grafo.dijkstra(v1, v2));
+                    System.out.println("Deseja escolher os vertices? (s/n) | caso n, será usado o vertice 0 e o vertice n-1");
+                    String escolhaVertices = scanner.nextLine();
+                    if(escolhaVertices.equals("s")){
+                        System.out.println("Vertice 1:");
+                        String v1 = scanner.nextLine();
+                        System.out.println("Vertice 2:");
+                        String v2 = scanner.nextLine();
+                        //System.out.println(grafo.dijkstra(v1, v2));
+                    } else {
+                        //System.out.println(grafo.dijkstra("0", verticesList.get(verticesList.size()-1).toString()));
+                    }
                     break;
                 case "15":
-                    System.out.println("Valor Fluxo Maximo");
-                    System.out.println("Vertice 1:");
-                    v1 = scanner.nextLine();
-                    System.out.println("Vertice 2:");
-                    v2 = scanner.nextLine();
-                    //System.out.println(grafo.fluxoMaximo(v1, v2));
+                    System.out.println("Valor Caminho Minimo Entre Dois Vertices");
+                    System.out.println("Deseja escolher os vertices? (s/n) | caso n, será usado o vertice 0 e o vertice n-1");
+                    escolhaVertices = scanner.nextLine();
+                    if(escolhaVertices.equals("s")){
+                        System.out.println("Vertice 1:");
+                        String v1 = scanner.nextLine();
+                        System.out.println("Vertice 2:");
+                        String v2 = scanner.nextLine();
+                        //System.out.println(ferramentas.fluxoMaximo(v1, v2));
+                    } else {
+                        //System.out.println(ferramentas.fluxoMaximo("0", verticesList.get(verticesList.size()-1).toString()));
+                    }
                     break;
                 case "16":
                     System.out.println("Fecho Transitivo");
