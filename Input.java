@@ -131,6 +131,7 @@ public class Input {
                 } else {
                     System.out.println("Caracteristica invalida");
                 }
+
                 return grafo;
             case "3":
                 try (BufferedReader br = new BufferedReader(new FileReader("grafo_0.txt"))) {
@@ -170,6 +171,7 @@ public class Input {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                    
             return grafo;
             default:
                 System.out.println("Opcao invalida");

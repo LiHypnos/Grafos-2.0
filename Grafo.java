@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -7,15 +9,22 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
-import java.util.Collections;
-import java.util.Comparator;
 
 public class Grafo {
+    Boolean direcionado;
     // Id aresta, array de <origem,aresta,destino>
     Map<String, ArrayList<Pair<String,Integer,String>>> grafo;
     Grafo(Map<String, ArrayList<Pair<String,Integer,String>>> input){
         grafo = new HashMap<>();
         grafo = input;
+        if(grafo.get("0").get(1).getOrigin() == grafo.get("0").get(0).getDestiny()){
+            direcionado = false;
+        } else {
+            direcionado = true;
+        }
+    }
+    public boolean isDirecionado(){
+        return direcionado;
     }
     public Map<String, ArrayList<Pair<String,Integer,String>>> getGrafo(){
         return grafo;
@@ -78,6 +87,15 @@ public class Grafo {
         }
         return vertices;
     }
+    public Set<String> Arestas(){
+        Set<String> arestas = new HashSet<>();
+        for (Map.Entry<String, ArrayList<Pair<String, Integer, String>>> entry : grafo.entrySet()) {
+            if(entry.getValue() != null){
+                arestas.add(entry.getKey());
+            }
+        }
+        return arestas;
+    }
     public String getIdValue(Pair<String,Integer,String> valor){
         String id = "";
         for (Map.Entry<String, ArrayList<Pair<String, Integer, String>>> entry : grafo.entrySet()) {
@@ -90,6 +108,19 @@ public class Grafo {
             }
         }
         return id;
+    }
+    public Pair<String,Integer,String> getLigacoes(String vertice){
+        Pair<String,Integer,String> ligacoes = null;
+        for (Map.Entry<String, ArrayList<Pair<String, Integer, String>>> entry : grafo.entrySet()) {
+            if(entry.getValue() != null){
+                for (Pair<String, Integer, String> par : entry.getValue()) {
+                    if(par.getDestiny().equals(vertice)){
+                        ligacoes = par;
+                    }
+                }
+            }
+        }
+        return ligacoes;
     }
     public int getGrau(String vertice){
         int cont = 0;
@@ -128,6 +159,7 @@ public class Grafo {
                 }
             }
         }
+        arestas.sort(Comparator.naturalOrder());
         return arestas;
     }
     public Set<String> DFS(String initial){
@@ -158,6 +190,8 @@ public class Grafo {
                 }
             }
         }
-        return arestasVisitadas;
+        List<String> sortedList = new ArrayList<>(arestasVisitadas);
+        Collections.sort(sortedList);
+        return new HashSet<>(sortedList);
     }
 }
