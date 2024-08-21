@@ -9,10 +9,10 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
-//import java.util.TreeSet;
 
 public class Grafo {
     Boolean direcionado;
+    // Id aresta, array de <origem,aresta,destino>
     Map<String, ArrayList<Pair<String,Integer,String>>> grafo;
     Grafo(Map<String, ArrayList<Pair<String,Integer,String>>> input){
         grafo = new HashMap<>();
@@ -29,6 +29,49 @@ public class Grafo {
     public Map<String, ArrayList<Pair<String,Integer,String>>> getGrafo(){
         return grafo;
     }
+    
+    public ArrayList<String> getVertices() {
+        ArrayList<String> vertices = new ArrayList<>();
+        for (Map.Entry<String, ArrayList<Pair<String, Integer, String>>> entry : grafo.entrySet()) {
+            if (entry.getValue() != null) {
+                for (Pair<String, Integer, String> par : entry.getValue()) {
+                    if (!vertices.contains(par.getOrigin())) {
+                        vertices.add(par.getOrigin());
+                    }
+                    if (!vertices.contains(par.getDestiny())) {
+                        vertices.add(par.getDestiny());
+                    }
+                }
+            }
+        }
+        Collections.sort(vertices, new Comparator<String>() {
+            @Override
+            public int compare(String s1, String s2) {
+                // Converte as strings para números e compara
+                return Integer.compare(Integer.parseInt(s1), Integer.parseInt(s2));
+            }
+        });
+        return vertices;
+    }
+
+    public HashMap<String, ArrayList<String>> getListaAdj() {
+        HashMap<String, ArrayList<String>> listaAdj = new HashMap<>();
+        for (Map.Entry<String, ArrayList<Pair<String, Integer, String>>> entry : grafo.entrySet()) {
+            if (entry.getValue() != null) {
+                for (Pair<String, Integer, String> par : entry.getValue()) {
+                    if (listaAdj.containsKey(par.getOrigin())) {
+                        listaAdj.get(par.getOrigin()).add(par.getDestiny());
+                    } else {
+                        ArrayList<String> adj = new ArrayList<>();
+                        adj.add(par.getDestiny());
+                        listaAdj.put(par.getOrigin(), adj);
+                    }
+                }
+            }
+        }
+        return listaAdj;
+    }
+    
     public String Vertices(){
         String vertices = "";
         HashMap<String, Integer> verticesMap = new HashMap<>();

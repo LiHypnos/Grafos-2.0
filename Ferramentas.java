@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -95,6 +94,12 @@ public class Ferramentas {
         }
         return false;
     }
+
+    public String topSort() {
+        TopSort topSort = new TopSort(grafo);
+        return topSort.executar();
+    }
+
     public void componentesConexas(){
         Set<String> visitados = new HashSet<>();
         Stack<String> pilha = new Stack<>();
