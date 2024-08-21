@@ -107,20 +107,26 @@ public class Menu {
                     break;
                 case "15":
                     System.out.println("Valor Caminho Minimo Entre Dois Vertices");
-                    System.out.println("Deseja escolher os vertices? (s/n) | caso n, será usado o vertice 0 e o vertice n-1");
-                    escolhaVertices = scanner.nextLine();
-                    if(escolhaVertices.equals("s")){
-                        System.out.println("Vertice 1:");
-                        String v1 = scanner.nextLine();
-                        System.out.println("Vertice 2:");
-                        String v2 = scanner.nextLine();
-                        //System.out.println(ferramentas.fluxoMaximo(v1, v2));
+                    if(!grafo.isDirecionado()){
+                        System.out.println("Grafo nao direcionado, impossivel calcular fluxo maximo");
+                        break;
                     } else {
-                        //System.out.println(ferramentas.fluxoMaximo("0", verticesList.get(verticesList.size()-1).toString()));
+                        System.out.println("Deseja escolher os vertices? (s/n) | caso n, será usado o vertice 0 e o vertice n-1");
+                        escolhaVertices = scanner.nextLine();
+                        if(escolhaVertices.equals("s")){
+                            System.out.println("Vertice 1:");
+                            String v1 = scanner.nextLine();
+                            System.out.println("Vertice 2:");
+                            String v2 = scanner.nextLine();
+                            System.out.println(grafo.fordFulkerson(v1, v2));
+                        } else {
+                            System.out.println(grafo.fordFulkerson("0", verticesList.get(verticesList.size()-1).toString()));
+                        }
                     }
                     break;
                 case "16":
                     System.out.println("Fecho Transitivo");
+                    //grafo.warshall();
                     break;
                 case "0":
                     break;

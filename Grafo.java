@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -232,5 +233,78 @@ public class Grafo {
         for (Map.Entry<String, String> entry : predecessores.entrySet()) {
             System.out.println(entry.getValue() + " - " + entry.getKey());
         }
+    }
+    public int fordFulkerson(String source, String sink) {
+        Map<String, ArrayList<Pair<String, Integer, String>>> residualGraph = new HashMap<>();
+        for (Map.Entry<String, ArrayList<Pair<String, Integer, String>>> entry : grafo.entrySet()) {
+            residualGraph.put(entry.getKey(), new ArrayList<>(entry.getValue()));
+        }
+
+        Map<String, String> parent = new HashMap<>();
+        int maxFlow = 0;
+
+        while (dfs(residualGraph, source, sink, parent)) {
+            int pathFlow = Integer.MAX_VALUE;
+
+            for (String v = sink; !v.equals(source); v = parent.get(v)) {
+                String u = parent.get(v);
+                for (Pair<String, Integer, String> pair : residualGraph.get(u)) {
+                    if (pair.getDestiny().equals(v)) {
+                        pathFlow = Math.min(pathFlow, pair.getValue());
+                    }
+                }
+            }
+
+            for (String v = sink; !v.equals(source); v = parent.get(v)) {
+                String u = parent.get(v);
+                for (Pair<String, Integer, String> pair : residualGraph.get(u)) {
+                    if (pair.getDestiny().equals(v)) {
+                        pair.value -= pathFlow;
+                    }
+                }
+                boolean reverseEdgeFound = false;
+                for (Pair<String, Integer, String> pair : residualGraph.get(v)) {
+                    if (pair.getDestiny().equals(u)) {
+                        pair.value += pathFlow;
+                        reverseEdgeFound = true;
+                    }
+                }
+                if (!reverseEdgeFound) {
+                    residualGraph.get(v).add(new Pair<>(v, pathFlow, u));
+                }
+            }
+
+            maxFlow += pathFlow;
+        }
+
+        return maxFlow;
+    }
+    private boolean dfs(Map<String, ArrayList<Pair<String, Integer, String>>> residualGraph, String source, String sink, Map<String, String> parent) {
+        Set<String> visited = new HashSet<>();
+        Stack<String> stack = new Stack<>();
+        stack.push(source);
+        visited.add(source);
+
+        while (!stack.isEmpty()) {
+            String u = stack.pop();
+
+            if (residualGraph.containsKey(u)) {
+                for (Pair<String, Integer, String> pair : residualGraph.get(u)) {
+                    String v = pair.getDestiny();
+                    int capacity = pair.getValue();
+
+                    if (!visited.contains(v) && capacity > 0) {
+                        stack.push(v);
+                        visited.add(v);
+                        parent.put(v, u);
+
+                        if (v.equals(sink)) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
     }
 }
