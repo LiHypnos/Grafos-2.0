@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -8,9 +7,11 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
-//import java.util.TreeSet;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class Grafo {
+    // Id aresta, array de <origem,aresta,destino>
     Map<String, ArrayList<Pair<String,Integer,String>>> grafo;
     Grafo(Map<String, ArrayList<Pair<String,Integer,String>>> input){
         grafo = new HashMap<>();
@@ -34,6 +35,13 @@ public class Grafo {
                 }
             }
         }
+        Collections.sort(vertices, new Comparator<String>() {
+            @Override
+            public int compare(String s1, String s2) {
+                // Converte as strings para números e compara
+                return Integer.compare(Integer.parseInt(s1), Integer.parseInt(s2));
+            }
+        });
         return vertices;
     }
 
