@@ -69,6 +69,7 @@ public class Menu {
                     break;
                 case "13":
                     System.out.println("Ordem Topologica");
+                    System.out.println(ferramentas.topSort());
                     break;
                 case "14":
                     System.out.println("Valor Caminho Minimo Entre Dois Vertices");

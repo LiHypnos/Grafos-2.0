@@ -56,4 +56,9 @@ public class Ferramentas {
         
         return false;
     }
+
+    public String topSort() {
+        TopSort topSort = new TopSort(grafo);
+        return topSort.executar();
+    }
 }
