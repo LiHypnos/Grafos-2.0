@@ -85,6 +85,7 @@ public class Menu {
                     break;
                 case "12":
                     System.out.println("Arvore Geradora Minima");
+                    grafo.prim("0");
                     break;
                 case "13":
                     System.out.println("Ordem Topologica");
@@ -99,9 +100,9 @@ public class Menu {
                         String v1 = scanner.nextLine();
                         System.out.println("Vertice 2:");
                         String v2 = scanner.nextLine();
-                        //System.out.println(grafo.dijkstra(v1, v2));
+                        ferramentas.bellmanford(v1, v2);
                     } else {
-                        //System.out.println(grafo.dijkstra("0", verticesList.get(verticesList.size()-1).toString()));
+                        ferramentas.bellmanford("0", verticesList.get(verticesList.size()-1).toString());
                     }
                     break;
                 case "15":

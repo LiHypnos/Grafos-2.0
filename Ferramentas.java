@@ -1,10 +1,12 @@
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
@@ -218,4 +220,97 @@ public class Ferramentas {
        }
         System.out.println(arestasPonte);
     }
+    public void bellmanford(String origem, String destino) {
+        Map<String, Integer> distancias = new HashMap<>();
+        Map<String, String> predecessores = new HashMap<>();
+
+        for (String vertice : grafo.Vertices().split(" ")) {
+            distancias.put(vertice, Integer.MAX_VALUE);
+        }
+        distancias.put(origem, 0);
+
+        int numVertices = grafo.Vertices().split(" ").length;
+
+        for (int i = 1; i < numVertices; i++) {
+            for (Map.Entry<String, ArrayList<Pair<String, Integer, String>>> entry : grafo.getGrafo().entrySet()) {
+                String u = entry.getKey();
+                if (grafo.getGrafo().get(u) != null) {
+                    for (Pair<String, Integer, String> par : grafo.getGrafo().get(u)) {
+                        String v = par.getDestiny();
+                        int peso = par.getValue();
+                        if(distancias.get(u) == null){
+                            distancias.put(u, Integer.MAX_VALUE);
+                        }
+                        else if (distancias.get(u) != Integer.MAX_VALUE && distancias.get(u) + peso < distancias.get(v)) {
+                            distancias.put(v, distancias.get(u) + peso);
+                            predecessores.put(v, u);
+                        }
+                    }
+                }
+            }
+        }
+
+        for (Map.Entry<String, ArrayList<Pair<String, Integer, String>>> entry : grafo.getGrafo().entrySet()) {
+            String u = entry.getKey();
+            if (grafo.getGrafo().get(u) != null) {
+                for (Pair<String, Integer, String> par : grafo.getGrafo().get(u)) {
+                    String v = par.getDestiny();
+                    int peso = par.getValue();
+                    if (distancias.get(u) != Integer.MAX_VALUE && distancias.get(u) + peso < distancias.get(v)) {
+                        System.out.println("O grafo contém um ciclo negativo.");
+                        return;
+                    }
+                }
+            }
+        }
+
+        List<String> caminho = new LinkedList<>();
+        for (String at = destino; at != null; at = predecessores.get(at)) {
+            caminho.add(at);
+        }
+        Collections.reverse(caminho);
+
+        int valorCaminho = distancias.get(destino);
+        System.out.println("O valor do caminho mínimo é: " + valorCaminho);
+        System.out.println("O caminho mínimo de " + origem + " para " + destino + " é: " + caminho);
+    }
+    public void prim(String origem) {
+        Map<String, Integer> pesos = new HashMap<>();
+        Map<String, String> predecessores = new HashMap<>();
+        PriorityQueue<Pair<String, Integer, String>> filaPrioridade = new PriorityQueue<>(Comparator.comparingInt(Pair::getValue()));
+        Set<String> visitados = new HashSet<>();
+
+        for (String vertice : grafo.Vertices().split(" ")) {
+            pesos.put(vertice, Integer.MAX_VALUE);
+        }
+        pesos.put(origem, 0);
+        filaPrioridade.add(new Pair<>(origem, 0, origem));
+
+        while (!filaPrioridade.isEmpty()) {
+            Pair<String, Integer, String> atual = filaPrioridade.poll();
+            String u = atual.getOrigin();
+
+            if (visitados.contains(u)) continue;
+            visitados.add(u);
+
+            if (grafo.getGrafo().containsKey(u)) {
+                for (Pair<String, Integer, String> vizinho : grafo.getGrafo().get(u)) {
+                    String v = vizinho.getDestiny();
+                    int peso = vizinho.getValue();
+
+                    if (!visitados.contains(v) && peso < pesos.get(v)) {
+                        pesos.put(v, peso);
+                        predecessores.put(v, u);
+                        filaPrioridade.add(new Pair<>(v, peso, v));
+                    }
+                }
+            }
+        }
+
+        System.out.println("A árvore geradora mínima é:");
+        for (Map.Entry<String, String> entry : predecessores.entrySet()) {
+            System.out.println(entry.getValue() + " - " + entry.getKey());
+        }
+    }
+
 }

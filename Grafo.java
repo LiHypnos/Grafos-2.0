@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
@@ -193,5 +194,43 @@ public class Grafo {
         List<String> sortedList = new ArrayList<>(arestasVisitadas);
         Collections.sort(sortedList);
         return new HashSet<>(sortedList);
+    }
+    public void prim(String origem) {
+        Map<String, Integer> pesos = new HashMap<>();
+        Map<String, String> predecessores = new HashMap<>();
+        PriorityQueue<Pair<String, Integer, String>> filaPrioridade = new PriorityQueue<>(Comparator.comparingInt(Pair::getValue));
+        Set<String> visitados = new HashSet<>();
+
+        for (String vertice : Vertices().split(" ")) {
+            pesos.put(vertice, Integer.MAX_VALUE);
+        }
+        pesos.put(origem, 0);
+        filaPrioridade.add(new Pair<>(origem, 0, origem));
+
+        while (!filaPrioridade.isEmpty()) {
+            Pair<String, Integer, String> atual = filaPrioridade.poll();
+            String u = atual.getOrigin();
+
+            if (visitados.contains(u)) continue;
+            visitados.add(u);
+
+            if (grafo.containsKey(u)) {
+                for (Pair<String, Integer, String> vizinho : grafo.get(u)) {
+                    String v = vizinho.getDestiny();
+                    int peso = vizinho.getValue();
+
+                    if (!visitados.contains(v) && peso < pesos.get(v)) {
+                        pesos.put(v, peso);
+                        predecessores.put(v, u);
+                        filaPrioridade.add(new Pair<>(v, peso, v));
+                    }
+                }
+            }
+        }
+
+        System.out.println("A árvore geradora mínima é:");
+        for (Map.Entry<String, String> entry : predecessores.entrySet()) {
+            System.out.println(entry.getValue() + " - " + entry.getKey());
+        }
     }
 }
