@@ -106,7 +106,7 @@ public class Menu {
                     }
                     break;
                 case "15":
-                    System.out.println("Valor Caminho Minimo Entre Dois Vertices");
+                    System.out.println("Valor Fluxo Maximo Entre Dois Vertices");
                     if(!grafo.isDirecionado()){
                         System.out.println("Grafo nao direcionado, impossivel calcular fluxo maximo");
                         break;

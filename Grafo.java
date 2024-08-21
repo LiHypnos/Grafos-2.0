@@ -13,27 +13,32 @@ import java.util.Set;
 import java.util.Stack;
 
 public class Grafo {
-    Boolean direcionado;
-    // Id aresta, array de <origem, valor aresta,destino>
-    Map<String, ArrayList<Pair<String,Integer,String>>> grafo;
-    Grafo(Map<String, ArrayList<Pair<String,Integer,String>>> input){
+    Boolean direcionado; // Indica se o grafo é direcionado
+    // Id aresta, array de <origem, valor aresta, destino>
+    Map<String, ArrayList<Pair<String, Integer, String>>> grafo;
+
+    Grafo(Map<String, ArrayList<Pair<String, Integer, String>>> input) {
         grafo = new HashMap<>();
         grafo = input;
-        if(grafo.get("0").get(1).getOrigin() == grafo.get("0").get(0).getDestiny()){
+        // Verifica se o grafo é direcionado
+        if (grafo.get("0").get(1).getOrigin() == grafo.get("0").get(0).getDestiny()) {
             direcionado = false;
         } else {
             direcionado = true;
         }
     }
-    public boolean isDirecionado(){
+
+    public boolean isDirecionado() {
         return direcionado;
     }
-    public Map<String, ArrayList<Pair<String,Integer,String>>> getGrafo(){
+
+    public Map<String, ArrayList<Pair<String, Integer, String>>> getGrafo() {
         return grafo;
     }
-    
+
     public ArrayList<String> getVertices() {
         ArrayList<String> vertices = new ArrayList<>();
+        // Coleta todos os vértices do grafo
         for (Map.Entry<String, ArrayList<Pair<String, Integer, String>>> entry : grafo.entrySet()) {
             if (entry.getValue() != null) {
                 for (Pair<String, Integer, String> par : entry.getValue()) {
@@ -46,6 +51,7 @@ public class Grafo {
                 }
             }
         }
+        // Ordena os vértices
         Collections.sort(vertices, new Comparator<String>() {
             @Override
             public int compare(String s1, String s2) {
@@ -58,6 +64,7 @@ public class Grafo {
 
     public HashMap<String, ArrayList<String>> getListaAdj() {
         HashMap<String, ArrayList<String>> listaAdj = new HashMap<>();
+        // Cria a lista de adjacência
         for (Map.Entry<String, ArrayList<Pair<String, Integer, String>>> entry : grafo.entrySet()) {
             if (entry.getValue() != null) {
                 for (Pair<String, Integer, String> par : entry.getValue()) {
@@ -73,37 +80,43 @@ public class Grafo {
         }
         return listaAdj;
     }
-    
-    public String Vertices(){
+
+    public String Vertices() {
         String vertices = "";
         HashMap<String, Integer> verticesMap = new HashMap<>();
+        // Coleta todos os vértices do grafo
         for (Map.Entry<String, ArrayList<Pair<String, Integer, String>>> entry : grafo.entrySet()) {
-            if(entry.getValue() != null){
+            if (entry.getValue() != null) {
                 for (Pair<String, Integer, String> par : entry.getValue()) {
                     verticesMap.put(par.getDestiny(), 0);
                 }
             }
         }
+        // Adiciona os vértices à string de saída
         for (String vertice : verticesMap.keySet()) {
             vertices += vertice + " ";
         }
         return vertices;
     }
-    public Set<String> Arestas(){
+
+    public Set<String> Arestas() {
         Set<String> arestas = new HashSet<>();
+        // Coleta todas as arestas do grafo
         for (Map.Entry<String, ArrayList<Pair<String, Integer, String>>> entry : grafo.entrySet()) {
-            if(entry.getValue() != null){
+            if (entry.getValue() != null) {
                 arestas.add(entry.getKey());
             }
         }
         return arestas;
     }
-    public String getIdValue(Pair<String,Integer,String> valor){
+
+    public String getIdValue(Pair<String, Integer, String> valor) {
         String id = "";
+        // Encontra o ID da aresta correspondente ao valor fornecido
         for (Map.Entry<String, ArrayList<Pair<String, Integer, String>>> entry : grafo.entrySet()) {
-            if(entry.getValue() != null){
+            if (entry.getValue() != null) {
                 for (Pair<String, Integer, String> par : entry.getValue()) {
-                    if(entry.getValue().contains(par) && par.equals(valor)){
+                    if (entry.getValue().contains(par) && par.equals(valor)) {
                         id = entry.getKey();
                     }
                 }
@@ -111,12 +124,14 @@ public class Grafo {
         }
         return id;
     }
-    public Pair<String,Integer,String> getLigacoes(String vertice){
-        Pair<String,Integer,String> ligacoes = null;
+
+    public Pair<String, Integer, String> getLigacoes(String vertice) {
+        Pair<String, Integer, String> ligacoes = null;
+        // Encontra as ligações do vértice fornecido
         for (Map.Entry<String, ArrayList<Pair<String, Integer, String>>> entry : grafo.entrySet()) {
-            if(entry.getValue() != null){
+            if (entry.getValue() != null) {
                 for (Pair<String, Integer, String> par : entry.getValue()) {
-                    if(par.getDestiny().equals(vertice)){
+                    if (par.getDestiny().equals(vertice)) {
                         ligacoes = par;
                     }
                 }
@@ -124,12 +139,14 @@ public class Grafo {
         }
         return ligacoes;
     }
-    public int getGrau(String vertice){
+
+    public int getGrau(String vertice) {
         int cont = 0;
-        for(Map.Entry<String, ArrayList<Pair<String, Integer, String>>> entry : grafo.entrySet()){
-            if(entry.getValue() != null){
+        // Calcula o grau do vértice fornecido
+        for (Map.Entry<String, ArrayList<Pair<String, Integer, String>>> entry : grafo.entrySet()) {
+            if (entry.getValue() != null) {
                 for (Pair<String, Integer, String> par : entry.getValue()) {
-                    if(par.getDestiny().equals(vertice)){
+                    if (par.getDestiny().equals(vertice)) {
                         cont++;
                     }
                 }
@@ -137,20 +154,22 @@ public class Grafo {
         }
         return cont;
     }
-    public List<String> BFS(String initial){
+
+    public List<String> BFS(String initial) {
         List<String> visitados = new ArrayList<>();
         List<String> arestas = new ArrayList<>();
         Queue<String> fila = new LinkedList<>();
         fila.add(initial);
-        while(!fila.isEmpty()){
+        // Realiza a busca em largura (BFS)
+        while (!fila.isEmpty()) {
             String aresta = fila.poll();
-            if(!arestas.contains(aresta)){
+            if (!arestas.contains(aresta)) {
                 arestas.add(aresta);
-                if(grafo.get(aresta) != null){
+                if (grafo.get(aresta) != null) {
                     for (Map.Entry<String, ArrayList<Pair<String, Integer, String>>> entry : grafo.entrySet()) {
-                        if(entry.getValue() != null){
+                        if (entry.getValue() != null) {
                             for (Pair<String, Integer, String> par : entry.getValue()) {
-                                if(par.getDestiny().equals(grafo.get(getIdValue(par)).get(0).getOrigin()) && !visitados.contains(par.getOrigin())){
+                                if (par.getDestiny().equals(grafo.get(getIdValue(par)).get(0).getOrigin()) && !visitados.contains(par.getOrigin())) {
                                     visitados.add(par.getOrigin());
                                     visitados.add(par.getDestiny());
                                     fila.add(entry.getKey());
@@ -164,7 +183,8 @@ public class Grafo {
         arestas.sort(Comparator.naturalOrder());
         return arestas;
     }
-    public Set<String> DFS(String initial){
+
+    public Set<String> DFS(String initial) {
         Stack<String> pilha = new Stack<>();
         Set<String> verticesVisitados = new HashSet<>();
         Set<String> arestasVisitadas = new HashSet<>();
@@ -173,14 +193,15 @@ public class Grafo {
         verticesVisitados.add(grafo.get(initial).get(0).getDestiny());
         verticesVisitados.add(grafo.get(initial).get(0).getOrigin());
         arestasVisitadas.add(initial);
-        while(!pilha.isEmpty()){
+        // Realiza a busca em profundidade (DFS)
+        while (!pilha.isEmpty()) {
             String aresta = pilha.pop();
 
             if (grafo.get(aresta) != null) {
-                for (Map.Entry<String, ArrayList<Pair<String, Integer, String>>> entry : grafo.entrySet()){
-                    if(entry.getValue() != null){
+                for (Map.Entry<String, ArrayList<Pair<String, Integer, String>>> entry : grafo.entrySet()) {
+                    if (entry.getValue() != null) {
                         for (Pair<String, Integer, String> par : entry.getValue()) {
-                            if(par.getOrigin().equals(grafo.get(aresta).get(0).getDestiny()) && !verticesVisitados.contains(par.getDestiny())){
+                            if (par.getOrigin().equals(grafo.get(aresta).get(0).getDestiny()) && !verticesVisitados.contains(par.getDestiny())) {
                                 pilha.add(entry.getKey());
                                 arestasVisitadas.add(entry.getKey());
                                 verticesVisitados.add(par.getOrigin());
@@ -196,18 +217,21 @@ public class Grafo {
         Collections.sort(sortedList);
         return new HashSet<>(sortedList);
     }
+
     public void prim(String origem) {
         Map<String, Integer> pesos = new HashMap<>();
         Map<String, String> predecessores = new HashMap<>();
         PriorityQueue<Pair<String, Integer, String>> filaPrioridade = new PriorityQueue<>(Comparator.comparingInt(Pair::getValue));
         Set<String> visitados = new HashSet<>();
 
+        // Inicializa os pesos dos vértices
         for (String vertice : Vertices().split(" ")) {
             pesos.put(vertice, Integer.MAX_VALUE);
         }
         pesos.put(origem, 0);
         filaPrioridade.add(new Pair<>(origem, 0, origem));
 
+        // Executa o algoritmo de Prim
         while (!filaPrioridade.isEmpty()) {
             Pair<String, Integer, String> atual = filaPrioridade.poll();
             String u = atual.getOrigin();
@@ -229,13 +253,16 @@ public class Grafo {
             }
         }
 
+        // Imprime a árvore geradora mínima
         System.out.println("A árvore geradora mínima é:");
         for (Map.Entry<String, String> entry : predecessores.entrySet()) {
             System.out.println(entry.getValue() + " - " + entry.getKey());
         }
     }
+
     public int fordFulkerson(String source, String sink) {
         Map<String, ArrayList<Pair<String, Integer, String>>> residualGraph = new HashMap<>();
+        // Cria o grafo residual
         for (Map.Entry<String, ArrayList<Pair<String, Integer, String>>> entry : grafo.entrySet()) {
             residualGraph.put(entry.getKey(), new ArrayList<>(entry.getValue()));
         }
@@ -243,9 +270,11 @@ public class Grafo {
         Map<String, String> parent = new HashMap<>();
         int maxFlow = 0;
 
+        // Executa o algoritmo de Ford-Fulkerson
         while (dfs(residualGraph, source, sink, parent)) {
             int pathFlow = Integer.MAX_VALUE;
 
+            // Encontra o fluxo máximo no caminho encontrado
             for (String v = sink; !v.equals(source); v = parent.get(v)) {
                 String u = parent.get(v);
                 for (Pair<String, Integer, String> pair : residualGraph.get(u)) {
@@ -255,6 +284,7 @@ public class Grafo {
                 }
             }
 
+            // Atualiza as capacidades das arestas no grafo residual
             for (String v = sink; !v.equals(source); v = parent.get(v)) {
                 String u = parent.get(v);
                 for (Pair<String, Integer, String> pair : residualGraph.get(u)) {
@@ -279,12 +309,14 @@ public class Grafo {
 
         return maxFlow;
     }
+
     private boolean dfs(Map<String, ArrayList<Pair<String, Integer, String>>> residualGraph, String source, String sink, Map<String, String> parent) {
         Set<String> visited = new HashSet<>();
         Stack<String> stack = new Stack<>();
         stack.push(source);
         visited.add(source);
 
+        // Realiza a busca em profundidade (DFS) no grafo residual
         while (!stack.isEmpty()) {
             String u = stack.pop();
 
